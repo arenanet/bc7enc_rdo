@@ -91,13 +91,24 @@ set (BC7ENC_SRC_LIST ${COMMON_SRC_LIST}
 	bc7e.ispc
 	)
 
+# @@ANET
+set (BC7ENC_SRC_LIST_LIB ${COMMON_SRC_LIST}
+	empty.cpp
+	bc7e.ispc
+	)
+# !@@ANET
+
 if (NOT SUPPORT_BC7E)
 		add_executable(bc7enc ${BC7ENC_SRC_LIST})
 else()
 	if (NOT MSVC)
 		add_executable(bc7enc ${BC7ENC_SRC_LIST} ${CMAKE_SOURCE_DIR}/bc7e.o ${CMAKE_SOURCE_DIR}/bc7e_avx.o ${CMAKE_SOURCE_DIR}/bc7e_avx2.o ${CMAKE_SOURCE_DIR}/bc7e_sse2.o ${CMAKE_SOURCE_DIR}/bc7e_sse4.o)
 	else()
-		add_executable(bc7enc ${BC7ENC_SRC_LIST} ${CMAKE_SOURCE_DIR}/bc7e.obj ${CMAKE_SOURCE_DIR}/bc7e_avx.obj ${CMAKE_SOURCE_DIR}/bc7e_avx2.obj ${CMAKE_SOURCE_DIR}/bc7e_sse2.obj ${CMAKE_SOURCE_DIR}/bc7e_sse4.obj)
+		# @@ANET renamed bc7enc to bc7enc_exe. The lib we create below will take the name bc7enc.
+		add_executable(bc7enc_exe ${BC7ENC_SRC_LIST} ${CMAKE_SOURCE_DIR}/bc7e.obj ${CMAKE_SOURCE_DIR}/bc7e_avx.obj ${CMAKE_SOURCE_DIR}/bc7e_avx2.obj ${CMAKE_SOURCE_DIR}/bc7e_sse2.obj ${CMAKE_SOURCE_DIR}/bc7e_sse4.obj)
+		# @@ANET
+		add_library(bc7enc STATIC ${BC7ENC_SRC_LIST_LIB} ${CMAKE_SOURCE_DIR}/bc7e.obj ${CMAKE_SOURCE_DIR}/bc7e_avx.obj ${CMAKE_SOURCE_DIR}/bc7e_avx2.obj ${CMAKE_SOURCE_DIR}/bc7e_sse2.obj ${CMAKE_SOURCE_DIR}/bc7e_sse4.obj)
+		# !@@ANET
 	endif()
 endif()
 

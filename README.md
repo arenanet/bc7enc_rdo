@@ -1,5 +1,7 @@
 bc7enc - Fast BC1-7 GPU texture encoders with Rate Distortion Optimization (RDO)
 
+# ⚠️ This now lives in [GitLab](https://gitlab.corp.arena.net/gw2/engine-team) ⚠️
+
 This repo contains fast texture encoders for BC1-7. All formats support a simple post-processing transform on the encoded texture data designed to trade off quality for smaller compressed file sizes using LZ compression. Significant (10-50%) size reductions are possible. The BC7 encoder also supports a "reduced entropy" mode using the -e option which causes the output to be biased/weighted in various ways which minimally impact quality, which results in 5-10% smaller file sizes with no slowdowns in encoding time.
 
 Currently, the entropy reduction transform is tuned for Deflate, LZHAM, or LZMA. The method used to control the rate-distortion tradeoff is the classic Lagrangian multiplier RDO method, modified to favor MSE on very smooth blocks. Rate is approximated using a fixed Deflate model. The post-processing transform applied to the encoded texture data tries to introduce the longest match it can into every encoded output block. It also tries to continue matches between blocks and (specifically for codecs like LZHAM/LZMA/Zstd) it tries to utilize REP0 (repeat) matches.
